@@ -317,7 +317,7 @@
   margin-bottom: 12px;
 }
 
-.about__skills-list `{
+.about__skills-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
