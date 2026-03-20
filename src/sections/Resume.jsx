@@ -1,4 +1,6 @@
 import './Resume.css'
+import { FaGraduationCap } from "react-icons/fa";
+import { FaBriefcase } from "react-icons/fa";
 
 const education = [
   {
@@ -78,7 +80,7 @@ export default function Resume() {
       <div className="resume__columns">
         <div className="resume__col">
           <div className="resume__col-header">
-            <div className="resume__col-icon">🎓</div>
+            <div className="resume__col-icon"> <FaGraduationCap /></div>
             <div>
               <h3 className="resume__col-title">EDUCATION</h3>
               <p className="resume__col-sub">ACADEMIC JOURNEY</p>
@@ -93,7 +95,8 @@ export default function Resume() {
 
         <div className="resume__col">
           <div className="resume__col-header">
-            <div className="resume__col-icon">💼</div>
+            <div className="resume__col-icon"><FaBriefcase />
+            </div>
             <div>
               <h3 className="resume__col-title">EXPERIENCE</h3>
               <p className="resume__col-sub">PROFESSIONAL PATH</p>
