@@ -6,8 +6,8 @@ const navLinks = ['Home', 'About', 'Resume', 'Gallery', 'Portfolio', 'Contact']
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [isDark, setIsDark] = useState(true)
-  const [active, setActive] = useState('Home')
+  const [isDark,   setIsDark]   = useState(true)
+  const [active,   setActive]   = useState('Home')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -16,10 +16,21 @@ export default function Navbar() {
   }, [])
 
   const scrollTo = (id) => {
-    const el = document.getElementById(id.toLowerCase())
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById(id.toLowerCase())
+      ?.scrollIntoView({ behavior: 'smooth' })
     setActive(id)
   }
+
+
+  const toggleTheme = () => {
+    const next = !isDark
+    setIsDark(next)
+    document.documentElement.setAttribute(
+      'data-theme',
+      next ? 'dark' : 'light'
+    )
+  }
+
 
   return (
     <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
@@ -40,7 +51,9 @@ export default function Navbar() {
       </ul>
 
       <div className="navbar__actions">
-        <button className="navbar__theme" onClick={() => setIsDark(!isDark)} aria-label="Toggle theme">
+        <button className="navbar__theme" 
+onClick={toggleTheme}
+ aria-label="Toggle theme">
           {isDark ? <Sun size={16} /> : <Moon size={16} />}
         </button>
         <button className="navbar__cv">

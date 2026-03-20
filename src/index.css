@@ -82,24 +82,53 @@ button:hover ~ .cursor {
 /* Grid Background */
 /* Grid Background — mirip aceternity ui GridBackgroundDemo */
 /* ── Grid: garis sangat tipis, hampir tak terlihat ── */
+
+
+
+
+
+[data-theme="light"] {
+  --black:        #f5f5f5;
+  --black-soft:   #efefef;
+  --black-card:   #ffffff;
+  --white:        #0a0a0a;
+  --white-dim:    rgba(0,0,0,0.65);
+  --white-muted:  rgba(0,0,0,0.35);
+  --white-subtle: rgba(0,0,0,0.04);
+  --border:       rgba(0,0,0,0.08);
+  --border-soft:  rgba(0,0,0,0.04);
+  --tag-bg:       rgba(0,0,0,0.05);
+  --tag-border:   rgba(0,0,0,0.10);
+  --grid-line:    rgba(0,0,0,0.06);
+  --nav-bg:       #f5f5f5;
+}
+
+
+
+body {
+  background-color:        var(--black);
+  color:                   var(--white);
+  transition:              background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing:  antialiased;
+}
+
 .grid-bg {
   background-color: var(--black);
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
 /* ── Radial fade: lebih agresif, pinggir lebih gelap ── */
 .grid-fade {
   pointer-events: none;
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
+  position:       absolute;
+  inset:          0;
+  background:     radial-gradient(
     ellipse 80% 70% at 50% 50%,
     transparent 0%,
-    rgba(5,5,5,0.6) 60%,
-    rgba(5,5,5,0.95) 100%
+    var(--black) 100%
   );
   z-index: 0;
 }
