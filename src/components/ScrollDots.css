@@ -1,0 +1,72 @@
+.scroll-dots {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-end;
+  z-index: 500;
+}
+
+.dot-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.dot-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: white;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 4px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.dot-row:hover .dot-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.dot-pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  background: transparent;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s, width 0.2s, height 0.2s;
+}
+
+.dot-row:hover .dot-pip {
+  border-color: white;
+  transform: scale(1.25);
+}
+
+.dot-row--active .dot-pip {
+  background: white;
+  border-color: white;
+  box-shadow: 0 0 8px rgba(255,255,255,0.4);
+}
+
+.dot-row--active .dot-label {
+  opacity: 0; /* label muncul hanya saat hover, bukan active */
+}
+
+@media (max-width: 768px) {
+  .scroll-dots { display: none; }
+}

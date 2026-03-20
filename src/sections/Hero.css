@@ -1,0 +1,169 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0 24px;
+}
+
+.hero__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* .hero__scroll-dots {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scroll-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  transition: background 0.2s;
+}
+
+.scroll-dot--active {
+  background: white;
+  border-color: white;
+} */
+
+.hero__content {
+  max-width: 900px;
+  animation: fadeUp 1s ease forwards;
+}
+
+.hero__greeting {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white-muted);
+  margin-bottom: 16px;
+  animation: fadeUp 0.8s ease 0.1s both;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 11vw, 148px);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  margin-bottom: 28px;
+  animation: fadeUp 0.8s ease 0.2s both;
+  min-height: 1.8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.hero__typed {
+  display: inline;
+}
+
+.hero__cursor {
+  display: inline;
+  animation: blink 0.75s step-end infinite;
+  color: rgba(255,255,255,0.6);
+}
+
+.hero__sub {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--white-dim);
+  max-width: 540px;
+  margin: 0 auto 40px;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 48px;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  border: none;
+  letter-spacing: 0.02em;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn--light {
+  background: var(--white);
+  color: var(--black);
+  box-shadow: 0 0 30px rgba(255,255,255,0.15);
+}
+
+.btn--light:hover {
+  box-shadow: 0 0 40px rgba(255,255,255,0.25);
+}
+
+.btn--dark {
+  background: rgba(255,255,255,0.08);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.btn--dark:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.hero__socials {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  animation: fadeUp 0.8s ease 0.5s both;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.social-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: white;
+  transform: translateY(-3px);
+}
