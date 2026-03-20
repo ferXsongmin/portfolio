@@ -1,0 +1,221 @@
+/* ============================================
+   MOBILE RESPONSIVE — tambahkan di bagian
+   PALING BAWAH masing-masing file CSS
+   ============================================ */
+
+
+/* ── index.css ── */
+@media (max-width: 768px) {
+  body {
+    cursor: auto; /* pakai cursor normal di mobile */
+  }
+  .cursor,
+  .cursor-spotlight {
+    display: none; /* sembunyikan custom cursor di mobile */
+  }
+  .section {
+    padding: 80px 20px;
+    min-height: auto;
+  }
+  .section-title {
+    font-size: clamp(36px, 10vw, 64px);
+  }
+}
+
+
+/* ── Navbar.css ── */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+  .navbar--scrolled {
+    padding: 10px 20px;
+  }
+  .navbar__links {
+    display: none;
+  }
+  .navbar__cv {
+    padding: 8px 14px;
+    font-size: 11px;
+  }
+  /* sembunyikan teks CV, tampilkan ikon saja */
+  .navbar__cv span {
+    display: none;
+  }
+}
+
+
+/* ── Hero.css ── */
+@media (max-width: 768px) {
+  .hero {
+    padding: 100px 20px 40px;
+    min-height: 100svh; /* gunakan svh agar tidak terpotong browser bar */
+  }
+  .hero__title {
+    font-size: clamp(48px, 14vw, 80px);
+    min-height: unset;
+    line-height: 0.95;
+  }
+  .hero__sub {
+    font-size: 14px;
+    padding: 0 8px;
+  }
+  .hero__actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+  .hero__socials {
+    gap: 12px;
+  }
+}
+
+
+/* ── About.css ── */
+@media (max-width: 768px) {
+  .about__inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .about__photo-wrap {
+    justify-content: center;
+  }
+  .about__photo {
+    width: 260px;
+    height: 300px;
+    transform: rotate(-2deg); /* kemiringan lebih kecil di mobile */
+  }
+  .about__photo-wrap:hover .about__photo {
+    transform: rotate(0deg) translateY(-2px);
+  }
+  .about__photo-border {
+    display: none;
+  }
+  .about__name {
+    font-size: clamp(36px, 10vw, 56px);
+  }
+  .about__bio {
+    font-size: 14px;
+  }
+  .about__stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .about__stat {
+    padding: 14px 12px;
+  }
+  .about__stat-number {
+    font-size: 28px;
+  }
+}
+
+
+/* ── Resume.css ── */
+@media (max-width: 768px) {
+  .resume__columns {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .resume__header {
+    margin-bottom: 40px;
+  }
+  .timeline-card {
+    padding: 16px;
+  }
+  .timeline-card:hover {
+    transform: none; /* nonaktifkan hover translateX di mobile */
+  }
+  .timeline-title {
+    font-size: 15px;
+  }
+  .resume__col-title {
+    font-size: 22px;
+  }
+}
+
+
+/* ── Gallery.css ── */
+@media (max-width: 768px) {
+  .gallery__header {
+    margin-bottom: 32px;
+  }
+  .gallery__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .lightbox__prev { left: 8px; }
+  .lightbox__next { right: 8px; }
+  .lightbox__prev,
+  .lightbox__next {
+    width: 40px;
+    height: 40px;
+  }
+  .lightbox__content {
+    width: 95%;
+  }
+}
+
+
+/* ── Portfolio.css ── */
+@media (max-width: 768px) {
+  .portfolio__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .portfolio__filter {
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .portfolio__filter-btn {
+    padding: 6px 14px;
+    font-size: 10px;
+  }
+  .project-card__thumb {
+    height: 110px;
+  }
+  .project-card__body {
+    padding: 16px;
+  }
+  .project-card__actions {
+    padding: 12px 16px;
+  }
+}
+
+
+/* ── Contact.css ── */
+@media (max-width: 768px) {
+  .contact__main {
+    flex-direction: column;
+    padding: 48px 20px 32px;
+    gap: 36px;
+  }
+  .contact__title {
+    font-size: 40px;
+  }
+  .contact__socials {
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 100%;
+  }
+  .contact__social-card {
+    padding: 14px;
+    gap: 10px;
+  }
+  .contact__social-name {
+    font-size: 13px;
+  }
+  .footer {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  .footer__copy {
+    font-size: 10px;
+  }
+}
