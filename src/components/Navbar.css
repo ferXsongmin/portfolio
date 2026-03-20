@@ -4,6 +4,7 @@
   left: 0;
   right: 0;
   z-index: 1000;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: space-between;
