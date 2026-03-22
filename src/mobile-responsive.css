@@ -219,3 +219,108 @@
     font-size: 10px;
   }
 }
+
+/* ── Mobile Navbar: hamburger menu ── */
+@media (max-width: 768px) {
+
+  /* Navbar: logo kiri, hamburger kanan */
+  .navbar {
+    padding: 14px 20px;
+  }
+
+  /* Sembunyikan tombol CV di mobile */
+  .navbar__cv {
+    display: none;
+  }
+
+  /* Tampilkan hamburger button */
+  .navbar__hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .navbar__hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* Animasi X saat menu terbuka */
+  .navbar__hamburger--open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .navbar__hamburger--open span:nth-child(2) {
+    opacity: 0;
+  }
+  .navbar__hamburger--open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Drawer menu mobile */
+  .navbar__mobile-menu {
+    position: fixed;
+    top: 52px; /* tepat di bawah navbar */
+    left: 0; right: 0;
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 9998;
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .navbar__mobile-menu--open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .navbar__mobile-menu button {
+    background: none;
+    border: none;
+    color: var(--white-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: color 0.2s;
+    width: 100%;
+  }
+
+  .navbar__mobile-menu button:last-child {
+    border-bottom: none;
+  }
+
+  .navbar__mobile-menu button:hover,
+  .navbar__mobile-menu button.active {
+    color: var(--white);
+  }
+
+  /* Scroll dots: tampilkan versi lebih kecil di mobile */
+  .scroll-dots {
+    display: flex;
+    right: 12px;
+    gap: 10px;
+  }
+
+  .dot-label {
+    display: none; /* sembunyikan label di mobile, dot saja */
+  }
+}
