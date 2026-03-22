@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -8,9 +9,10 @@ import Portfolio from "./sections/Portfolio";
 import Contact from "./sections/Contact";
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollDots from "./components/ScrollDots";
+import VideoPage from "./pages/VideoPage";
 import "./App.css";
 
-export default function App() {
+function CursorEffects() {
   const cursorRef = useRef(null);
   const spotlightRef = useRef(null);
 
@@ -19,10 +21,8 @@ export default function App() {
     const spotlight = spotlightRef.current;
 
     const onMove = (e) => {
-      // cursor titik kecil — langsung snap
       cursor.style.left = e.clientX + "px";
       cursor.style.top = e.clientY + "px";
-      // spotlight glow — langsung ikut juga
       spotlight.style.left = e.clientX + "px";
       spotlight.style.top = e.clientY + "px";
     };
@@ -42,13 +42,17 @@ export default function App() {
 
   return (
     <>
-      {/* Cursor titik putih kecil */}
       <div className="cursor" ref={cursorRef} />
-
-      {/* Spotlight glow mengikuti cursor */}
       <div className="cursor-spotlight" ref={spotlightRef} />
+    </>
+  );
+}
+
+// Halaman utama — sama persis seperti sebelumnya
+function HomePage() {
+  return (
+    <>
       <ScrollProgress />
-      <Navbar />
       <ScrollDots />
       <main>
         <Hero />
@@ -59,5 +63,18 @@ export default function App() {
         <Contact />
       </main>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <CursorEffects />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/video" element={<VideoPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
