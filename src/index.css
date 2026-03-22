@@ -5,27 +5,25 @@
 }
 
 :root {
-  /* ── Deep blacks ── */
   --black:        #050505;
   --black-soft:   #080808;
   --black-card:   #0e0e0e;
   --black-hover:  #131313;
 
-  /* ── White scale ── */
   --white:        #ffffff;
   --white-dim:    rgba(255,255,255,0.65);
   --white-muted:  rgba(255,255,255,0.28);
   --white-subtle: rgba(255,255,255,0.05);
 
-  /* ── Borders ── */
   --border:       rgba(255,255,255,0.07);
   --border-soft:  rgba(255,255,255,0.04);
   --tag-bg:       rgba(255,255,255,0.05);
   --tag-border:   rgba(255,255,255,0.09);
 
-  /* ── Grid & nav — INI YANG KURANG ── */
-  --grid-line:    rgba(255,255,255,0.03);
-  --nav-bg:       #050505;
+  /* grid lebih jelas: 0.03 → 0.07 */
+  --grid-line:         rgba(255,255,255,0.07);
+  /* navbar saat scroll — dark mode */
+  --nav-bg-scrolled:   rgba(5,5,5,0.92);
 
   --font-display: 'Bebas Neue', sans-serif;
   --font-mono:    'Space Mono', monospace;
@@ -44,31 +42,27 @@
   --border-soft:  rgba(0,0,0,0.04);
   --tag-bg:       rgba(0,0,0,0.05);
   --tag-border:   rgba(0,0,0,0.10);
-  --grid-line:    rgba(0,0,0,0.06);
-  --nav-bg:       #f5f5f5;
+  --grid-line:    rgba(0,0,0,0.08);
+  /* navbar saat scroll — light mode: putih bukan hitam */
+  --nav-bg-scrolled:   rgba(245,245,245,0.92);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   cursor: none;
-  background-color:       var(--black);
-  color:                  var(--white);
-  transition:             background 0.3s ease, color 0.3s ease;
-  -webkit-font-smoothing: antialiased;
+  background-color:        var(--black);
+  color:                   var(--white);
+  transition:              background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing:  antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Custom cursor ── */
 .cursor {
-  width: 8px;
-  height: 8px;
+  width: 8px; height: 8px;
   background: white;
   border-radius: 50%;
-  position: fixed;
-  top: 0; left: 0;
+  position: fixed; top: 0; left: 0;
   pointer-events: none;
   z-index: 99999;
   transform: translate(-50%, -50%);
@@ -77,25 +71,17 @@ body {
 }
 
 .cursor-spotlight {
-  width: 500px;
-  height: 500px;
+  width: 500px; height: 500px;
   border-radius: 50%;
-  position: fixed;
-  top: 0; left: 0;
+  position: fixed; top: 0; left: 0;
   pointer-events: none;
   z-index: 99998;
   transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle,
-    rgba(255,255,255,0.06) 0%,
-    rgba(255,255,255,0.02) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 40%, transparent 70%);
   opacity: 0;
   transition: opacity 0.4s ease;
 }
 
-/* ── Grid background ── */
 .grid-bg {
   background-color: var(--black);
   background-image:
@@ -106,23 +92,17 @@ body {
 
 .grid-fade {
   pointer-events: none;
-  position:       absolute;
-  inset:          0;
-  background: radial-gradient(
-    ellipse 80% 70% at 50% 50%,
-    transparent 0%,
-    var(--black) 100%
-  );
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 0%, var(--black) 100%);
   z-index: 0;
 }
 
-/* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--black); }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
 
-/* ── Section base ── */
 .section {
   background-color: var(--black);
   min-height: 100vh;
@@ -134,7 +114,6 @@ body {
   .section { padding: 80px 24px; }
 }
 
-/* ── Tag pill ── */
 .tag {
   display: inline-block;
   padding: 4px 10px;
@@ -148,7 +127,6 @@ body {
   color: var(--white-dim);
 }
 
-/* ── Section labels ── */
 .section-label {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -168,27 +146,23 @@ body {
 }
 
 .section-divider {
-  width: 60px;
-  height: 2px;
+  width: 60px; height: 2px;
   background: var(--white);
   margin: 24px auto;
 }
 
-/* ── Animations ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(30px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
 
-.animate-fade-up  { animation: fadeUp  0.8s ease forwards; }
-.animate-fade-in  { animation: fadeIn  0.6s ease forwards; }
+.animate-fade-up { animation: fadeUp  0.8s ease forwards; }
+.animate-fade-in { animation: fadeIn  0.6s ease forwards; }
