@@ -555,7 +555,7 @@ export default function Navbar() {
             className={isVideoPage ? 'active' : ''}
             onClick={goToVideo}
           >
-            <Play size={13} /> Video
+            <Play size={13} /> My Fineshyt
           </button>
         </div>
 
