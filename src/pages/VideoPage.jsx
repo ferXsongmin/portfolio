@@ -296,7 +296,7 @@ function LayoutCarousel({ videos }) {
 //  Main Page
 // ─────────────────────────────────────────────
 const LAYOUTS = [
-  { key: "carousel", label: "Carousel" },
+  // { key: "carousel", label: "Carousel" },
   // { key: "grid",     label: "Grid" },
   // { key: "", label: "Vertical" },
 ];
@@ -332,7 +332,7 @@ export default function VideoPage() {
         <div className="layout-stage">
           {/* {layout === "vertical" && <LayoutVertical videos={VIDEOS} />} */}
           {/* {layout === "grid" && <LayoutGrid videos={VIDEOS} />} */}
-          {layout === "carousel" && <LayoutCarousel videos={VIDEOS} />}
+          {/* {layout === "carousel" && <LayoutCarousel videos={VIDEOS} />} */}
         </div>
       </div>
     </div>
