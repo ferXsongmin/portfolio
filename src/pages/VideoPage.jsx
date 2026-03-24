@@ -332,7 +332,7 @@ export default function VideoPage() {
         <div className="layout-stage">
           {/* {layout === "vertical" && <LayoutVertical videos={VIDEOS} />} */}
           {/* {layout === "grid" && <LayoutGrid videos={VIDEOS} />} */}
-          {/* {layout === "carousel" && <LayoutCarousel videos={VIDEOS} />} */}
+          {layout === "carousel" && <LayoutCarousel videos={VIDEOS} />}
         </div>
       </div>
     </div>
