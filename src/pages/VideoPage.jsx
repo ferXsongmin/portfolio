@@ -39,6 +39,10 @@ const VIDEOS = [
     id: 6,
     url: "https://res.cloudinary.com/dym2xxpvb/video/upload/v1774362705/songmin_ojiirx.mp4", // ganti URL
   },
+  {
+    id: 6,
+    url: "https://res.cloudinary.com/dym2xxpvb/video/upload/v1774364838/songmin3_amrboq.mp4", // ganti URL
+  },
   // ✏️ Tambah video baru: { id: 5, url: "https://..." },
 ];
 
