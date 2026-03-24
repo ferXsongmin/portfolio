@@ -1,152 +1,314 @@
-import { useEffect, useRef, useState } from "react";
-import { Play, Pause, Volume2, VolumeX, Maximize } from "lucide-react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { Play, Pause, Volume2, VolumeX, Maximize, ChevronLeft, ChevronRight } from "lucide-react";
 import "./VideoPage.css";
 
-// Ganti URL ini dengan link Cloudinary kamu
-// Cara upload: cloudinary.com → Upload → copy URL video
-// Format: https://res.cloudinary.com/YOUR_CLOUD/video/upload/v.../nama.mp4
-const VIDEO_URL =
-  "https://res.cloudinary.com/dym2xxpvb/video/upload/v1774189697/WhatsApp_Video_2026-03-22_at_21.27.48_rfacla.mp4"; // placeholder — ganti dengan URL cloudinary kamu
+// ─────────────────────────────────────────────
+//  ✏️  TAMBAH VIDEO DI SINI — tinggal copy-paste objek baru
+//  Cukup isi url, sisanya opsional
+// ─────────────────────────────────────────────
+const VIDEOS = [
+  {
+    id: 1,
+    url: "https://res.cloudinary.com/dym2xxpvb/video/upload/v1774189697/WhatsApp_Video_2026-03-22_at_21.27.48_rfacla.mp4",
+  },
+  {
+    id: 2,
+    url: "https://res.cloudinary.com/dym2xxpvb/video/upload/v1774362704/gyz_sujnrj.mp4", // ganti URL
+  },
+  {
+    id: 3,
+    url: "https://res.cloudinary.com/dym2xxpvb/video/upload/v1774362702/liz2_lyrqp6.mp4", // ganti URL
+  },
+  {
+    id: 4,
+    url: "https://res.cloudinary.com/dym2xxpvb/video/upload/v1774362556/liz_u4tjle.mp4", // ganti URL
+  },
+  {
+    id: 5,
+    url: "https://res.cloudinary.com/dym2xxpvb/video/upload/v1774362563/xinsoo_scivkd.mp4", // ganti URL
+  },
+    {
+    id: 6,
+    url: "https://res.cloudinary.com/dym2xxpvb/video/upload/v1774362705/songmin_ojiirx.mp4", // ganti URL
+  },
+  // ✏️ Tambah video baru: { id: 5, url: "https://..." },
+];
 
-export default function VideoPage() {
+// ─────────────────────────────────────────────
+//  Single Video Player Component
+// ─────────────────────────────────────────────
+function VideoPlayer({ src, autoplay = false, isActive = true }) {
   const videoRef = useRef(null);
+  const wrapRef  = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState(false);
-
-  // autoplay saat halaman dibuka
+ 
+  // ── Auto-unmute setelah user pertama kali interaksi ──
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    video
-      .play()
-      .then(() => setPlaying(true))
-      .catch(() => {});
+ 
+    const unlock = () => {
+      video.muted = false;
+      setMuted(false);
+      window.removeEventListener("click", unlock);
+      window.removeEventListener("touchstart", unlock);
+    };
+ 
+    window.addEventListener("click", unlock, { once: true });
+    window.addEventListener("touchstart", unlock, { once: true });
+ 
+    return () => {
+      window.removeEventListener("click", unlock);
+      window.removeEventListener("touchstart", unlock);
+    };
   }, []);
-
-  const togglePlay = () => {
+ 
+  // ── Pause ketika video tidak aktif (carousel / layout switch) ──
+  useEffect(() => {
     const video = videoRef.current;
-    if (video.paused) {
-      video.play();
-      setPlaying(true);
-    } else {
+    if (!video) return;
+    if (!isActive) {
       video.pause();
       setPlaying(false);
     }
+  }, [isActive]);
+ 
+  // ── Auto-pause saat discroll keluar viewport ──
+  useEffect(() => {
+    const video = videoRef.current;
+    const wrap  = wrapRef.current;
+    if (!video || !wrap) return;
+ 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          video.pause();
+          video.muted = true;
+          setMuted(true);
+          setPlaying(false);
+        }
+      },
+      { threshold: 0.25 } // pause saat <25% terlihat
+    );
+ 
+    observer.observe(wrap);
+    return () => observer.disconnect();
+  }, []);
+ 
+  // ── Autoplay saat pertama mount ──
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !autoplay) return;
+    video.play().then(() => setPlaying(true)).catch(() => {});
+  }, [autoplay]);
+ 
+  const togglePlay = () => {
+    const v = videoRef.current;
+    if (v.paused) {
+      v.muted = false;
+      setMuted(false);
+      v.play();
+      setPlaying(true);
+    } else {
+      v.pause();
+      setPlaying(false);
+    }
   };
-
-  const toggleMute = () => {
+ 
+  const toggleMute = (e) => {
+    e.stopPropagation();
     videoRef.current.muted = !muted;
     setMuted(!muted);
   };
-
+ 
   const onTimeUpdate = () => {
     const v = videoRef.current;
-    setProgress((v.currentTime / v.duration) * 100);
+    if (v.duration) setProgress((v.currentTime / v.duration) * 100);
   };
-
+ 
   const onSeek = (e) => {
+    e.stopPropagation();
     const v = videoRef.current;
     const pct = e.nativeEvent.offsetX / e.currentTarget.offsetWidth;
     v.currentTime = pct * v.duration;
   };
-
-  const fullscreen = () => {
-    videoRef.current.requestFullscreen?.();
+ 
+  const fullscreen = (e) => {
+    e.stopPropagation();
+    // Fullscreen pada WRAPPER agar CSS :fullscreen contain bekerja
+    const el = wrapRef.current;
+    if (!el) return;
+    (el.requestFullscreen?.() ||
+     el.webkitRequestFullscreen?.() ||
+     el.mozRequestFullScreen?.() ||
+     el.msRequestFullscreen?.());
   };
-
+ 
+  return (
+    <div ref={wrapRef} className="vp-wrap" onClick={togglePlay}>
+      <video
+        ref={videoRef}
+        className="vp-video"
+        src={src}
+        muted
+        loop
+        playsInline
+        onTimeUpdate={onTimeUpdate}
+        onCanPlay={() => setLoaded(true)}
+      />
+ 
+      {!loaded && (
+        <div className="vp-loading">
+          <div className="vp-spinner" />
+        </div>
+      )}
+ 
+      <div className="vp-controls">
+        <div className="vp-progress" onClick={onSeek}>
+          <div className="vp-progress-fill" style={{ width: progress + "%" }} />
+        </div>
+        <div className="vp-buttons">
+          <button className="vp-btn" onClick={(e) => { e.stopPropagation(); togglePlay(); }}>
+            {playing ? <Pause size={15} fill="currentColor" /> : <Play size={15} fill="currentColor" />}
+          </button>
+          <button className="vp-btn" onClick={toggleMute}>
+            {muted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+          </button>
+          <span className="vp-hint">{muted ? "tap to unmute" : "sound on"}</span>
+          <button className="vp-btn vp-btn--right" onClick={fullscreen}>
+            <Maximize size={13} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+ 
+// ─────────────────────────────────────────────
+//  Layout A — Vertical Stack
+// ─────────────────────────────────────────────
+// function LayoutVertical({ videos }) {
+//   return (
+//     <div className="layout-vertical">
+//       {videos.map((v, i) => (
+//         <div key={v.id} className="layout-vertical__item">
+//           <VideoPlayer src={v.url} autoplay={i === 0} />
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
+ 
+// ─────────────────────────────────────────────
+//  Layout B — Grid 2 Kolom
+// ─────────────────────────────────────────────
+// function LayoutGrid({ videos }) {
+//   return (
+//     <div className="layout-grid">
+//       {videos.map((v) => (
+//         <div key={v.id} className="layout-grid__item">
+//           <VideoPlayer src={v.url} />
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
+ 
+// ─────────────────────────────────────────────
+//  Layout C — Carousel
+// ─────────────────────────────────────────────
+function LayoutCarousel({ videos }) {
+  const [active, setActive] = useState(0);
+  const total = videos.length;
+ 
+  const prev = () => setActive((a) => (a - 1 + total) % total);
+  const next = () => setActive((a) => (a + 1) % total);
+ 
+  return (
+    <div className="layout-carousel">
+      <div className="layout-carousel__stage">
+        {videos.map((v, i) => {
+          const isCenter = i === active;
+          return (
+            <div
+              key={v.id}
+              className={`layout-carousel__card ${isCenter ? "is-active" : ""}`}
+              onClick={() => !isCenter && setActive(i)}
+            >
+              <VideoPlayer src={v.url} autoplay={isCenter} isActive={isCenter} />
+            </div>
+          );
+        })}
+      </div>
+ 
+      <div className="layout-carousel__nav">
+        <button className="layout-carousel__arrow" onClick={prev}>
+          <ChevronLeft size={20} />
+        </button>
+        <div className="layout-carousel__dots">
+          {videos.map((_, i) => (
+            <span
+              key={i}
+              className={`layout-carousel__dot ${i === active ? "is-active" : ""}`}
+              onClick={() => setActive(i)}
+            />
+          ))}
+        </div>
+        <button className="layout-carousel__arrow" onClick={next}>
+          <ChevronRight size={20} />
+        </button>
+      </div>
+    </div>
+  );
+}
+ 
+// ─────────────────────────────────────────────
+//  Main Page
+// ─────────────────────────────────────────────
+const LAYOUTS = [
+  { key: "carousel", label: "Carousel" },
+  { key: "grid",     label: "Grid" },
+  { key: "vertical", label: "Vertical" },
+];
+ 
+export default function VideoPage() {
+  const [layout, setLayout] = useState("carousel");
+ 
   return (
     <div className="video-page">
       <div className="video-page__inner">
+ 
         {/* Header */}
         <div className="video-page__header">
           <p className="section-label">My Fineshyt</p>
           <h1 className="video-page__title">
             MBG<span className="video-page__dot">.</span>
           </h1>
-          <p className="video-page__sub">
-            {/* A look at what I've built — no distractions, just the work. */}
-          </p>
         </div>
-
-        {/* Player */}
-        <div className="video-player">
-          <div className="video-player__wrap">
-            {/* Video element */}
-            <video
-              ref={videoRef}
-              className="video-player__video"
-              src={VIDEO_URL}
-              muted
-              loop
-              playsInline
-              onTimeUpdate={onTimeUpdate}
-              onCanPlay={() => setLoaded(true)}
-              onClick={togglePlay}
-            />
-
-            {/* Loading state */}
-            {!loaded && (
-              <div className="video-player__loading">
-                <div className="video-player__spinner" />
-              </div>
-            )}
-
-            {/* Controls overlay */}
-            <div className="video-player__controls">
-              {/* Progress bar */}
-              <div className="video-player__progress" onClick={onSeek}>
-                <div
-                  className="video-player__progress-fill"
-                  style={{ width: progress + "%" }}
-                />
-              </div>
-
-              {/* Buttons */}
-              <div className="video-player__buttons">
-                <button className="video-player__btn" onClick={togglePlay}>
-                  {playing ? (
-                    <Pause size={16} fill="currentColor" />
-                  ) : (
-                    <Play size={16} fill="currentColor" />
-                  )}
-                </button>
-
-                <button className="video-player__btn" onClick={toggleMute}>
-                  {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                </button>
-
-                <span className="video-player__label">
-                  {muted ? "Tap to unmute" : "Sound on"}
-                </span>
-
-                <button
-                  className="video-player__btn video-player__btn--right"
-                  onClick={fullscreen}
-                >
-                  <Maximize size={14} />
-                </button>
-              </div>
-            </div>
-          </div>
+ 
+        {/* Layout switcher */}
+        <div className="layout-switcher">
+          {LAYOUTS.map((l) => (
+            <button
+              key={l.key}
+              className={`layout-switcher__btn ${layout === l.key ? "is-active" : ""}`}
+              onClick={() => setLayout(l.key)}
+            >
+              {l.label}
+            </button>
+          ))}
         </div>
-
-        {/* Info */}
-        {/* <div className="video-page__info">
-          <div className="video-page__info-card">
-            <p className="video-page__info-label">Stack</p>
-            <p className="video-page__info-val">Laravel · React · MySQL</p>
-          </div>
-          <div className="video-page__info-card">
-            <p className="video-page__info-label">Type</p>
-            <p className="video-page__info-val">Web Application</p>
-          </div>
-          <div className="video-page__info-card">
-            <p className="video-page__info-label">Year</p>
-            <p className="video-page__info-val">2025</p>
-          </div>
-        </div> */}
+ 
+        {/* Render layout */}
+        <div className="layout-stage">
+          {layout === "vertical" && <LayoutVertical videos={VIDEOS} />}
+          {layout === "grid"     && <LayoutGrid     videos={VIDEOS} />}
+          {layout === "carousel" && <LayoutCarousel videos={VIDEOS} />}
+        </div>
+ 
       </div>
     </div>
   );

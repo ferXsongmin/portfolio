@@ -1,18 +1,23 @@
-    .video-page {
+/* ════════════════════════════════════════════
+   VideoPage.css
+   ════════════════════════════════════════════ */
+
+/* ── Page shell ── */
+.video-page {
   min-height: 100vh;
   background: var(--black);
   padding: 100px 80px 80px;
 }
 
 .video-page__inner {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
 /* ── Header ── */
 .video-page__header {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
 
 .video-page__title {
@@ -20,48 +25,105 @@
   font-size: clamp(48px, 7vw, 80px);
   line-height: 1;
   color: var(--white);
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .video-page__dot {
   color: var(--white-muted);
 }
 
-.video-page__sub {
-  font-size: 15px;
-  color: var(--white-dim);
-  line-height: 1.7;
+/* ════════════════════════════════════════════
+   Layout Switcher
+   ════════════════════════════════════════════ */
+.layout-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
 }
 
-/* ── Player ── */
-.video-player {
-  margin-bottom: 32px;
+.layout-switcher__btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.video-player__wrap {
+.layout-switcher__btn:hover {
+  color: var(--white);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.layout-switcher__btn.is-active {
+  color: var(--black);
+  background: var(--white);
+  border-color: var(--white);
+}
+
+/* ════════════════════════════════════════════
+   Shared Video Player (.vp-*)
+   ════════════════════════════════════════════ */
+.vp-wrap {
   position: relative;
   width: 100%;
   aspect-ratio: 9 / 16;
-  max-height: 80vh;
-  margin: 0 auto;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   background: var(--black-card);
   border: 1px solid var(--border);
-  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
   cursor: pointer;
-  max-width: 400px;
 }
 
-.video-player__video {
+.vp-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
+/* ── Fullscreen: wrap jadi container hitam penuh ── */
+.vp-wrap:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+.vp-wrap:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+/* Video di dalam fullscreen: contain agar tidak terpotong */
+.vp-wrap:-webkit-full-screen .vp-video {
+  width: auto;
+  height: 100vh;
+  max-width: 100vw;
+  object-fit: contain;
+}
+.vp-wrap:fullscreen .vp-video {
+  width: auto;
+  height: 100vh;
+  max-width: 100vw;
+  object-fit: contain;
+}
+
 /* Loading */
-.video-player__loading {
+.vp-loading {
   position: absolute;
   inset: 0;
   display: flex;
@@ -70,136 +132,219 @@
   background: var(--black-card);
 }
 
-.video-player__spinner {
-  width: 36px;
-  height: 36px;
+.vp-spinner {
+  width: 32px;
+  height: 32px;
   border: 2px solid var(--border);
   border-top-color: var(--white);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* Controls */
-.video-player__controls {
+.vp-controls {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 32px 16px 16px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  padding: 28px 14px 14px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.72));
   opacity: 0;
   transition: opacity 0.2s ease;
 }
 
-.video-player__wrap:hover .video-player__controls {
-  opacity: 1;
-}
+.vp-wrap:hover .vp-controls { opacity: 1; }
 
-.video-player__progress {
+.vp-progress {
   width: 100%;
   height: 3px;
   background: rgba(255,255,255,0.2);
   border-radius: 100px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   cursor: pointer;
-  position: relative;
 }
 
-.video-player__progress-fill {
+.vp-progress-fill {
   height: 100%;
   background: white;
   border-radius: 100px;
   transition: width 0.1s linear;
 }
 
-.video-player__buttons {
+.vp-buttons {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
-.video-player__btn {
-  background: rgba(255,255,255,0.1);
+.vp-btn {
+  background: rgba(255,255,255,0.12);
   border: none;
   color: white;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 6px;
+  border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s;
 }
 
-.video-player__btn:hover {
-  background: rgba(255,255,255,0.2);
-}
+.vp-btn:hover { background: rgba(255,255,255,0.24); }
+.vp-btn--right { margin-left: auto; }
 
-.video-player__btn--right {
-  margin-left: auto;
-}
-
-.video-player__label {
+.vp-hint {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.45);
   text-transform: uppercase;
 }
 
-/* ── Info cards ── */
-.video-page__info {
+/* ════════════════════════════════════════════
+   Layout A — Vertical Stack
+   ════════════════════════════════════════════ */
+.layout-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.layout-vertical__item {
+  width: 100%;
+  max-width: 360px;
+}
+
+/* ════════════════════════════════════════════
+   Layout B — Grid 2 Kolom
+   ════════════════════════════════════════════ */
+.layout-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  max-width: 400px;
-  margin: 0 auto;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
 }
 
-.video-page__info-card {
-  background: var(--black-card);
+.layout-grid__item {
+  width: 100%;
+}
+
+/* ════════════════════════════════════════════
+   Layout C — Carousel (3D coverflow)
+   ════════════════════════════════════════════ */
+.layout-carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.layout-carousel__stage {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  perspective: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layout-carousel__card {
+  position: absolute;
+  width: 260px;
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.45s ease;
+  cursor: pointer;
+}
+
+/* Center card */
+.layout-carousel__card.is-active {
+  transform: translateX(0) scale(1) rotateY(0deg);
+  opacity: 1;
+  z-index: 3;
+  pointer-events: auto;
+}
+
+/* Semua card non-aktif disembunyikan */
+.layout-carousel__card:not(.is-active) {
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transform: translateX(0) scale(0.9);
+}
+
+/* Nav */
+.layout-carousel__nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.layout-carousel__arrow {
+  background: rgba(255,255,255,0.08);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-}
-
-.video-page__info-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--white-muted);
-  margin-bottom: 6px;
-}
-
-.video-page__info-val {
-  font-size: 13px;
-  font-weight: 600;
   color: var(--white);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-/* ── Responsive ── */
+.layout-carousel__arrow:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+.layout-carousel__dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.layout-carousel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.layout-carousel__dot.is-active {
+  background: var(--white);
+  width: 20px;
+  border-radius: 100px;
+}
+
+/* ════════════════════════════════════════════
+   Responsive
+   ════════════════════════════════════════════ */
 @media (max-width: 768px) {
   .video-page {
-    padding: 80px 20px 60px;
+    padding: 80px 16px 60px;
   }
 
-  .video-player__wrap {
-    max-width: 100%;
-    aspect-ratio: 9 / 16;
-    max-height: 70vh;
+  /* Grid → 1 kolom di mobile */
+  .layout-grid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin: 0 auto;
   }
 
-  .video-page__info {
-    max-width: 100%;
+  /* Carousel lebih kecil */
+  .layout-carousel__stage {
+    height: 420px;
   }
 
-  .video-page__info-val {
-    font-size: 11px;
+  .layout-carousel__card {
+    width: 200px;
   }
+
+  .layout-carousel__card.is-left  { transform: translateX(-195px) scale(0.8) rotateY(22deg); }
+  .layout-carousel__card.is-right { transform: translateX(195px)  scale(0.8) rotateY(-22deg); }
 }
